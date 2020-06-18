@@ -42,11 +42,71 @@ ChatBot::~ChatBot()
     }
 }
 
-//// STUDENT CODE
+//// TASK 2: DONE the rule of five
 ////
+// copy constructor
+ChatBot::ChatBot(const ChatBot &chatbot)
+{
+    std::cout << "ChatBot Copy Constructor" << std::endl;
+    _image = new wxBitmap();
+    *_image = *chatbot._image;
+    *_currentNode = *chatbot._currentNode;
+    *_rootNode = *chatbot._rootNode;
+    *_chatLogic = *chatbot._chatLogic;
+}
 
+// copy assignment constructor
+ChatBot &ChatBot::operator=(const ChatBot &chatbot)
+{
+    std::cout << "ChatBot Copy Assignment Constructor" << std::endl;
+    if(this == &chatbot)
+    {
+        return *this;
+    }
+    _image = new wxBitmap();
+    *_image = *chatbot._image;
+    *_currentNode = *chatbot._currentNode;
+    *_rootNode = *chatbot._rootNode;
+    *_chatLogic = *chatbot._chatLogic;
+    return *this;
+}
+
+// move constructor
+ChatBot::ChatBot(ChatBot &&chatbot)
+{
+    std::cout << "ChatBot Move Constructor" << std::endl;
+    _image = chatbot._image;
+    _currentNode = chatbot._currentNode;
+    _rootNode = chatbot._rootNode;
+    _chatLogic = chatbot._chatLogic;
+    chatbot._image = nullptr;
+    chatbot._currentNode = nullptr;
+    chatbot._rootNode = nullptr;
+    chatbot._chatLogic = nullptr;
+    _chatLogic->SetChatbotHandle(this);
+}
+
+// move assignment constructor
+ChatBot &ChatBot::operator=(ChatBot &&chatbot)
+{
+    std::cout << "ChatBot Move Assignment Constructor" << std::endl;
+    if(this == &chatbot)
+    {
+        return *this;
+    }
+    _image = chatbot._image;
+    _currentNode = chatbot._currentNode;
+    _rootNode = chatbot._rootNode;
+    _chatLogic = chatbot._chatLogic;
+    chatbot._image = nullptr;
+    chatbot._currentNode = nullptr;
+    chatbot._rootNode = nullptr;
+    chatbot._chatLogic = nullptr;
+    _chatLogic->SetChatbotHandle(this);
+    return *this;
+}
 ////
-//// EOF STUDENT CODE
+//// EOF TASK 2
 
 void ChatBot::ReceiveMessageFromUser(std::string message)
 {
