@@ -45,14 +45,16 @@ ChatBot::~ChatBot()
 //// TASK 2: DONE the rule of five
 ////
 // copy constructor
+// *chatLogic = *chatbot._chatLogic causes error. GraphNode, ChatLogic can not be copied.
 ChatBot::ChatBot(const ChatBot &chatbot)
 {
     std::cout << "ChatBot Copy Constructor" << std::endl;
     _image = new wxBitmap();
     *_image = *chatbot._image;
-    *_currentNode = *chatbot._currentNode;
-    *_rootNode = *chatbot._rootNode;
-    *_chatLogic = *chatbot._chatLogic;
+    _currentNode = chatbot._currentNode;
+    _rootNode = chatbot._rootNode;
+    _chatLogic = chatbot._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
 }
 
 // copy assignment constructor
@@ -65,9 +67,10 @@ ChatBot &ChatBot::operator=(const ChatBot &chatbot)
     }
     _image = new wxBitmap();
     *_image = *chatbot._image;
-    *_currentNode = *chatbot._currentNode;
-    *_rootNode = *chatbot._rootNode;
-    *_chatLogic = *chatbot._chatLogic;
+    _currentNode = chatbot._currentNode;
+    _rootNode = chatbot._rootNode;
+    _chatLogic = chatbot._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
     return *this;
 }
 
@@ -79,11 +82,11 @@ ChatBot::ChatBot(ChatBot &&chatbot)
     _currentNode = chatbot._currentNode;
     _rootNode = chatbot._rootNode;
     _chatLogic = chatbot._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
     chatbot._image = nullptr;
     chatbot._currentNode = nullptr;
     chatbot._rootNode = nullptr;
     chatbot._chatLogic = nullptr;
-    _chatLogic->SetChatbotHandle(this);
 }
 
 // move assignment constructor
