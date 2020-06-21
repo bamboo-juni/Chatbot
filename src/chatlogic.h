@@ -19,7 +19,9 @@ private:
     // data handles (owned)
     //std::vector<GraphNode *> _nodes;
     std::vector<std::unique_ptr<GraphNode>> _nodes;
-    std::vector<GraphEdge *> _edges;
+    // no need for _edges, all edges are moved into nodes(owned & not owned)
+    //std::vector<GraphEdge *> _edges;
+    
     ////
     //// EOF TASK 3
 

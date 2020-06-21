@@ -129,7 +129,8 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                         // check if node with this ID exists already
                         // find_if return value: Iterator to the first element satisfying the condition or last if no such element is found
                         // &node unique_ptr reference, not copy
-                        auto newNode = std::find_if(_nodes.begin(), _nodes.end(), [&id](std::unique_ptr<GraphNode> &node) { return node->GetID() == id; });
+                        // using const
+                        auto newNode = std::find_if(_nodes.begin(), _nodes.end(), [&id](const std::unique_ptr<GraphNode> &node) { return node->GetID() == id; });
 
                         // create new element if ID does not yet exist
                         if (newNode == _nodes.end())
@@ -167,7 +168,7 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                             std::unique_ptr<GraphEdge> edge = std::make_unique<GraphEdge>(id);
                             edge->SetChildNode((*childNode).get());
                             edge->SetParentNode((*parentNode).get());
-                            _edges.push_back(edge.get());
+                            //_edges.push_back(edge.get());
 
                             // find all keywords for current node
                             AddAllTokensToElement("KEYWORD", tokens, *edge);
